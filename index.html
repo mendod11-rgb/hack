@@ -4,62 +4,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Input Form</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #0a0a2a, #1a1a3a);
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .map-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        #canvas {
+            width: 100%;
+            max-width: 1500px;
+            border: 3px solid gold;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background-color: #1a1a3a;
+        }
+        
+        .content-section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        .section-header {
+            color: gold;
+            border-bottom: 2px solid gold;
+            padding-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the User Input Form!</h1>
-    <form id="userForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required><br><br>
-        
-        <button type="submit">Submit</button>
-    </form>
-    <button onclick="startGame()">Click Me</button>
-    <div id="result"></div>
-    <canvas id="canvas" width="150" height="150"></canvas>
+    <h1>Las Vegas street learner</h1>
+        <div class="map-container">
+        <canvas id="canvas" width="1942" height="1752"></canvas>
+        </div>
+            <div style = "display: flex">
+                <div>
+            <h2 style = "padding: 2rem">Please guess the streets to get from point a to b</h2>
+            <form id="userForm">
+                <label for="name">road1 E to W</label>
+                <input type="text" id="hr" name="name" required><br><br>
+                
+                <label for="age">road2 N to S</label>
+                <input type="text" id="vr" name="age" required><br><br>
+                
+                <button type="submit">Submit</button>
+            </form>
+            <button onclick="resetGame()">resetGame</button>
+
+
+            <div id="result3"></div>
+            <br>
+            <div id="result"></div>
+            <div id="result2"></div>
+        </div>
+        <div>
+            <h3>
+            road options
+            </h3>
+            <br>
+            <p>
+            "ann", "craig", "cheyenne", "lake mead", "charlestone", "sahara", "desert in", "flamingo", "tropicana", "russell", "sunset", "warm springs"
+            <br>
+            "durango", "buffalo", "jones", "decatur", "valley", "mlk", "5th", "eastern", "pecos", "lamb", "nellis"
+            </p>
+        <div>
+
+    </div>
     <script>
-        let ver = ["durango","buffalo","jones","thorn","decatur","valley","allen","simmons","clayton","mlk","revere","commerce","goldfield","5th","arcata","losee","walnut","lamb","puebla","nellis"]
-        let hoz = ["craig","alexander","gowan","cheyenne","smoke ranch","lake mead","vegas dr","washington","alta","oakey","sahara","edna","dessert","spring mountain","twain","tropicana","hacienda","russell","post","sunset","warm springs","robindale","windmill","pebble","silverado ranch","pyle","cactus","starr"]
+        let hoz = ["ann", "craig", "cheyenne", "lake mead", "charlestone", "sahara", "desert in", "flamingo", "tropicana", "russell", "sunset", "warm springs"]
+        let ver = ["durango", "buffalo", "jones", "decatur", "valley", "mlk", "5th", "eastern", "pecos", "lamb", "nellis"]
 
-        
+        let xend = 1660
+        let xstart = 405
+        const x = new Map([["ann",[[xstart,230], [xend ,212]]],
+            ["craig",[[xstart, 382], [xend , 384]]],
+            ["cheyenne",[[xstart,548], [xend ,551]]],
+            ["lake mead",[[xstart,700], [xend ,711]]],
+            ["charlestone",[[xstart,976], [xend , 974]]],
+            ["sahara",[[xstart,1082], [xend ,1086]]],
+            ["desert in",[[xstart,1191],[xend ,1200]]],
+            ["flamingo",[[xstart,1289], [xend ,1293]]],
+            ["tropicana",[[xstart,1398], [xend ,1400]]],
+            ["russell",[[xstart,1506], [xend ,1510]]],
+            ["sunset",[[xstart,1619], [xend ,1611]]],
+            ["warm springs", [[xstart,1727],[xend ,1715]]],
+            ])
 
+        let ystart = 220;
+        const y = new Map([
+            ["durango",[[407,ystart ], [407,1720]]],      
+            ["buffalo",[[510,ystart  ], [506,1720]]],
+            ["jones",[[715,ystart ], [715,1720]]],
+            ["decatur",[[821,ystart ], [813,1720]]],
+            ["valley",[[920,ystart ], [928,1720]]],
+            ["mlk",[[1110,ystart ], [1120,1720]]],
+            ["5th",[[1239,ystart ], [1240,1720]]],
+            ["eastern",[[1350,ystart ], [1330,1720]]],
+            ["pecos",[[1453,ystart ], [1446,1720]]],
+            ["lamb",[[1558,ystart ], [1558,1720]]],
+            ["nellis",[[1665,ystart ], [1660,1720]]]
+            ])
         //true is horizontal
-        let dir = true;
-        let guesses = 0;
-        let pS1 = 0; 
-        let pS2 = 0; 
-        let pE1 = 0;
-        let pE2 = 0;
-        function startGame(){
-            pS1 = Math.Floor(Math.Random()*18.99) + 0.5;
-            pS2 = Math.Floor(Math.Random()*18.99) + 0.5;
-            pE1 = Math.Floor(Math.Random()*26.99) + 0.5;
-            pE2 = Math.Floor(Math.Random()*26.99) + 0.5;
+        let hr1 = ""; 
+        let hr2 = ""; 
+        let vr1 = "";
+        let vr2 = "";
+        function resetGame(){
+            const ctx = document.getElementById("canvas").getContext("2d");
+            ctx.lineWidth = 5;
+            const img = new Image();
+
+            img.src = "maze.png";
+            hr1 = ""; 
+            hr2 = ""; 
+            vr1 = "";
+            vr2 = "";
+            while(hr1 == hr2|| vr1 == vr2){
+                hr1 = hoz[Math.floor(Math.random()* hoz.length )];
+                hr2 = hoz[Math.floor(Math.random()* hoz.length )];
+                vr1 = ver[Math.floor(Math.random()* ver.length )];
+                vr2 = ver[Math.floor(Math.random()* ver.length )];
+            }
+
+            let coors1 = [y.get(vr1)[0][0],x.get(hr1)[0][1]]
+            let coors2 = [y.get(vr2)[0][0],x.get(hr2)[0][1]]
+            console.log(coors1);
+            console.log(coors2);
+
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0); 
+                drawline(x.get(hr1), "yellow");
+                drawline(y.get(vr2), "yellow");
+                drawline(x.get(hr2), "orange");
+                drawline(y.get(vr1), "orange");
+                drawpoint(ctx, coors1[0],coors1[1], "red");
+                drawpoint(ctx, coors2[0],coors2[1], "blue");
+            };
         }
 
+        function drawline(l,color){
+            ctx.beginPath();
+            ctx.strokeStyle  = color;
+            ctx.moveTo(l[0][0], l[0][1]);
+            ctx.lineTo(l[1][0], l[1][1]);
+            ctx.stroke();
+
+        }
+
+        function drawpoint(ctx, lx, ly, color){
+            ctx.moveTo(0, 0);
+            ctx.beginPath();
+            ctx.fillStyle = color;
+            ctx.strokeStyle  = "black";
+            ctx.arc(lx, ly, 20, 0, Math.PI * 2, true); // Outer circle
+            ctx.fill();
+            ctx.stroke();
+        }
 
         // Add event listener to the form
         document.getElementById('userForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission
 
             // Get the values from the form
-            const name = document.getElementById('name').value;
-            const age = document.getElementById('age').value;
+            const hr = document.getElementById('hr').value;
+            const vr = document.getElementById('vr').value;
+            if((hr == hr1 && vr == vr2) || (hr == hr2 || vr == vr1)){
+                document.getElementById('result3').innerText = `CORRECT(look below for answers)`;
+            }else {
+                document.getElementById('result3').innerText = `INCORRECT(look below for answers)`;
+            }
 
-            // Display the result
-            document.getElementById('result').innerText = `Hello, ${name}! You are ${age} years old.`;
+           // Display the result
+            document.getElementById('result').innerText = `you guessed ${hr}, ${vr}`;
+            document.getElementById('result2').innerText = `answers : \nyellow:${hr1} and ${vr2} \n orange:${hr2} and ${vr1}`;
+
         });
-        
-          const ctx = document.getElementById("canvas").getContext("2d");
-           ctx.beginPath();
-            ctx.moveTo(30, 96);
-            ctx.lineTo(70, 66);
-            ctx.lineTo(103, 76);
-            ctx.lineTo(170, 15);
-            ctx.stroke();
-          img.src = "backdrop.png";
+
+        const ctx = document.getElementById("canvas").getContext("2d");
+        resetGame();
 
     </script>
 </body>
