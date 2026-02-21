@@ -16,16 +16,30 @@
         
         <button type="submit">Submit</button>
     </form>
-    
+    <button onclick="startGame()">Click Me</button>
     <div id="result"></div>
-<canvas id="canvas" width="150" height="150"></canvas>
+    <canvas id="canvas" width="150" height="150"></canvas>
     <script>
-        let hoz = ["craig","durango","buffalo","jones","thorn","decatur","valley","allen","simmons","clayton","mlk","revere","commerce","goldfield","5th","arcata","losee","walnut","lamb","puebla","nellis"]
-        let ver = ["craig","alexander","gowan","cheyenne","smoke ranch","lake mead","vegas dr","washington","alta","oakey","sahara","edna","dessert","spring mountain","twain","tropicana","hacienda","russell","post","sunset","warm springs","robindale","windmill","pebble","silverado ranch","pyle","cactus","starr"]
+        let ver = ["durango","buffalo","jones","thorn","decatur","valley","allen","simmons","clayton","mlk","revere","commerce","goldfield","5th","arcata","losee","walnut","lamb","puebla","nellis"]
+        let hoz = ["craig","alexander","gowan","cheyenne","smoke ranch","lake mead","vegas dr","washington","alta","oakey","sahara","edna","dessert","spring mountain","twain","tropicana","hacienda","russell","post","sunset","warm springs","robindale","windmill","pebble","silverado ranch","pyle","cactus","starr"]
 
+        
 
         //true is horizontal
         let dir = true;
+        let guesses = 0;
+        let pS1 = 0; 
+        let pS2 = 0; 
+        let pE1 = 0;
+        let pE2 = 0;
+        function startGame(){
+            pS1 = Math.Floor(Math.Random()*18.99) + 0.5;
+            pS2 = Math.Floor(Math.Random()*18.99) + 0.5;
+            pE1 = Math.Floor(Math.Random()*26.99) + 0.5;
+            pE2 = Math.Floor(Math.Random()*26.99) + 0.5;
+        }
+
+
         // Add event listener to the form
         document.getElementById('userForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission
